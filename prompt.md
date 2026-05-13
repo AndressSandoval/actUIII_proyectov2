@@ -1,4 +1,6 @@
-Aquí tienes el **Super Prompt Definitivo**, ajustado con la estructura de carpetas técnica que solicitaste y organizado por fases para una ejecución perfecta por parte de la IA.
+Entendido. He traducido y adaptado toda la terminología de las tablas y modelos de datos al español para que sea más intuitivo para tu mercado, manteniendo la estructura profesional que solicitaste.
+
+Aquí tienes el **Super Prompt Final** con las tablas en español:
 
 ---
 
@@ -25,25 +27,25 @@ Configura el archivo `lib/core/theme.dart` con los siguientes parámetros:
 * **Paleta de Colores:** Primario: `#006064` (Turquesa Oscuro), Acento: `#00ACC1` (Turquesa Vibrante), Fondo: `#F5F7F7`.
 * **Estética:** Material 3, `borderRadius: 20` en todos los Cards y Buttons, y fuentes de `GoogleFonts.poppins()`.
 * **Flujo de Pantallas:**
-1. `WelcomeScreen`: Pantalla de entrada con gradiente turquesa, logo y botón de acción.
-2. `AuthScreen`: Switcher elegante entre Login y Registro con Firebase Auth.
-3. `MainShell`: Scaffold con `BottomNavigationBar` (Home, Catálogo de Piezas, Carrito, Perfil).
+1. `PantallaBienvenida`: Pantalla de entrada con gradiente turquesa, logo y botón de acción.
+2. `PantallaAutenticacion`: Switcher elegante entre Inicio de Sesión y Registro con Firebase Auth.
+3. `EstructuraPrincipal`: Scaffold con `BottomNavigationBar` (Inicio, Catálogo de Piezas, Carrito, Perfil).
 
 
 
 ---
 
-## 📊 FASE 3: Modelado de Datos (Firestore)
+## 📊 FASE 3: Modelado de Datos en Español (Firestore)
 
 Genera las clases en `lib/models/` basadas en las siguientes estructuras de colecciones:
 
 | Colección | Campos Principales | Propósito |
 | --- | --- | --- |
-| **Users** | `uid`, `name`, `email`, `address`, `role` | Clientes y Admins. |
-| **Employees** | `emp_id`, `name`, `role`, `sales_count`, `active` | Gestión de staff y ventas. |
-| **Inventory** | `id`, `name`, `brand`, `price`, `stock`, `type (Unit/Part)`, `tags` | Stock de instrumentos y piezas. |
-| **Suppliers** | `id`, `company`, `contact_phone`, `category` | Proveedores de repuestos. |
-| **Sales** | `id`, `client_id`, `items[]`, `total`, `tax`, `timestamp` | Histórico de transacciones. |
+| **Usuarios** | `uid`, `nombre`, `email`, `direccion`, `rol` | Clientes y Administradores. |
+| **Empleados** | `id_empleado`, `nombre`, `cargo`, `conteo_ventas`, `activo` | Gestión de staff y métricas. |
+| **Inventario** | `id`, `nombre`, `marca`, `precio`, `stock`, `tipo (Instrumento/Pieza)`, `etiquetas` | Stock general y repuestos. |
+| **Proveedores** | `id`, `empresa`, `telefono_contacto`, `categoria` | Gestión de abastecimiento. |
+| **Ventas** | `id`, `id_cliente`, `lista_items[]`, `total`, `impuestos`, `fecha_hora` | Histórico de transacciones. |
 
 ---
 
@@ -63,11 +65,11 @@ musicman/
 │   ├── providers/
 │   ├── services/
 │   ├── views/
-│   │   ├── welcome_screen.dart
-│   │   ├── auth/
-│   │   ├── home/
-│   │   ├── inventory/
-│   │   └── sales/
+│   │   ├── pantalla_bienvenida.dart
+│   │   ├── autenticacion/
+│   │   ├── inicio/
+│   │   ├── inventario/
+│   │   └── ventas/
 │   └── main.dart
 ├── pubspec.yaml
 └── README.md
@@ -78,16 +80,16 @@ musicman/
 
 ## 🚀 FASE 5: Entregables de Repositorio
 
-1. **Código `main.dart**`: Inicialización de Firebase, configuración de `ThemeData` turquesa y rutas.
+1. **Código `main.dart**`: Inicialización de Firebase, configuración de `ThemeData` turquesa y rutas en español.
 2. **Lógica de Negocio**: Implementación de `FirebaseService` para CRUD y `Provider` para el carrito.
 3. **Archivo `README.md` para GitHub**:
 * Descripción técnica de "MUSICMAN".
 * Guía de instalación de Firebase y dependencias.
-* Diccionario de datos de las colecciones.
+* Diccionario de datos de las colecciones (en español).
 
 
 
 ---
 
 **INSTRUCCIÓN FINAL:**
-Proporciona el código de forma **modular**. No mezcles la lógica de negocio con la UI. Asegúrate de que la sección de **"Piezas Técnicas"** tenga filtros específicos. El resultado debe ser una app lista para producción, visualmente impactante y totalmente funcional en VS Code / Antigravity.
+Proporciona el código de forma **modular**. No mezcles la lógica de negocio con la UI. Asegúrate de que la sección de **"Piezas Técnicas"** esté claramente diferenciada de los instrumentos completos mediante filtros. El resultado debe ser una app lista para producción, visualmente impactante y totalmente funcional en VS Code / Antigravity.
