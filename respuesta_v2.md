@@ -1,21 +1,12 @@
-# 🎵 MUSICMAN — Proyecto Full Stack Flutter + Firebase
-
-Aplicación profesional desarrollada con Flutter y Firebase para una tienda de:
-
-* Instrumentos musicales
-* Refacciones
-* Accesorios
-* Piezas técnicas
+# Arquitectura Profesional para Flutter + Firebase — Proyecto “MUSICMAN”
 
 ---
 
-# PASO 1 — pubspec.yaml
+# 📦 1. Archivo `pubspec.yaml`
 
-```yaml id="fd8r7a"
+```yaml
 name: musicman
-
-description: Aplicación profesional para tienda de instrumentos musicales.
-
+description: E-commerce profesional de instrumentos y piezas técnicas.
 publish_to: 'none'
 
 version: 1.0.0+1
@@ -27,19 +18,18 @@ dependencies:
   flutter:
     sdk: flutter
 
-  cupertino_icons: ^1.0.6
-
   # Firebase
-  firebase_core: ^3.3.0
-  firebase_auth: ^5.1.4
-  cloud_firestore: ^5.2.1
+  firebase_core: ^3.1.0
+  firebase_auth: ^5.1.0
+  cloud_firestore: ^5.0.1
 
-  # Estado
+  # Estado y UI
   provider: ^6.1.2
-
-  # UI
   google_fonts: ^6.2.1
+  font_awesome_flutter: ^10.7.0
   intl: ^0.19.0
+
+  cupertino_icons: ^1.0.6
 
 dev_dependencies:
   flutter_test:
@@ -52,98 +42,107 @@ flutter:
 
   assets:
     - assets/images/
+    - assets/icons/
 ```
 
 ---
 
-# PASO 2 — Estructura Profesional
+# 📁 2. Estructura Profesional del Proyecto
 
-```bash id="mz3n0d"
-lib/
+```text
+musicman/
+├── android/app/google-services.json
+├── assets/
+│   ├── images/
+│   └── icons/
+├── lib/
+│   ├── core/
+│   │   ├── constants/
+│   │   ├── widgets/
+│   │   └── theme.dart
+│   │
+│   ├── models/
+│   │   ├── usuario_modelo.dart
+│   │   ├── empleado_modelo.dart
+│   │   ├── inventario_modelo.dart
+│   │   ├── proveedor_modelo.dart
+│   │   └── venta_modelo.dart
+│   │
+│   ├── providers/
+│   │   └── carrito_provider.dart
+│   │
+│   ├── services/
+│   │   ├── firebase_service.dart
+│   │   └── autenticacion_service.dart
+│   │
+│   ├── views/
+│   │   ├── pantalla_bienvenida.dart
+│   │   ├── autenticacion/
+│   │   │   └── pantalla_autenticacion.dart
+│   │   ├── inicio/
+│   │   │   └── pantalla_inicio.dart
+│   │   ├── inventario/
+│   │   │   └── pantalla_inventario.dart
+│   │   └── ventas/
+│   │       └── pantalla_carrito.dart
+│   │
+│   └── main.dart
 │
-├── core/
-│   └── tema.dart
-│
-├── modelos/
-│   ├── producto_modelo.dart
-│   ├── empleado_modelo.dart
-│   ├── venta_modelo.dart
-│   └── proveedor_modelo.dart
-│
-├── servicios/
-│   └── firebase_servicio.dart
-│
-├── providers/
-│   ├── auth_provider.dart
-│   ├── producto_provider.dart
-│   └── carrito_provider.dart
-│
-├── vistas/
-│   ├── welcome_screen.dart
-│   ├── auth_screen.dart
-│   ├── inicio_screen.dart
-│   ├── catalogo_screen.dart
-│   ├── carrito_screen.dart
-│   ├── perfil_screen.dart
-│   └── main_shell.dart
-│
-├── widgets/
-│   ├── tarjeta_producto.dart
-│   └── boton_personalizado.dart
-│
-├── firebase_options.dart
-│
-└── main.dart
+├── pubspec.yaml
+└── README.md
 ```
 
 ---
 
-# PASO 3 — Tema Global
+# 🎨 3. `lib/core/theme.dart`
 
-# lib/core/tema.dart
-
-```dart id="dz7t6u"
+```dart
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class TemaApp {
+class AppTheme {
 
-  static const Color principal = Color(0xFF006064);
-  static const Color secundario = Color(0xFF00ACC1);
-  static const Color fondo = Color(0xFFF5F7F7);
+  static const Color colorPrimario = Color(0xFF006064);
+  static const Color colorAcento = Color(0xFF00ACC1);
+  static const Color colorFondo = Color(0xFFF5F7F7);
 
-  static ThemeData temaClaro = ThemeData(
+  static ThemeData temaPrincipal = ThemeData(
     useMaterial3: true,
 
-    scaffoldBackgroundColor: fondo,
+    scaffoldBackgroundColor: colorFondo,
 
     colorScheme: ColorScheme.fromSeed(
-      seedColor: principal,
-      primary: principal,
-      secondary: secundario,
+      seedColor: colorPrimario,
+      primary: colorPrimario,
+      secondary: colorAcento,
+      background: colorFondo,
     ),
 
     textTheme: GoogleFonts.poppinsTextTheme(),
 
     appBarTheme: const AppBarTheme(
+      backgroundColor: colorPrimario,
+      foregroundColor: Colors.white,
       centerTitle: true,
       elevation: 0,
-      backgroundColor: principal,
-      foregroundColor: Colors.white,
+    ),
+
+    cardTheme: CardTheme(
+      color: Colors.white,
+      elevation: 3,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+      ),
     ),
 
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
-        backgroundColor: principal,
+        backgroundColor: colorPrimario,
         foregroundColor: Colors.white,
-
-        elevation: 4,
-
         padding: const EdgeInsets.symmetric(
-          horizontal: 28,
-          vertical: 18,
+          horizontal: 24,
+          vertical: 16,
         ),
-
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
         ),
@@ -153,17 +152,7 @@ class TemaApp {
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
       fillColor: Colors.white,
-
       border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(20),
-        borderSide: BorderSide.none,
-      ),
-    ),
-
-    cardTheme: CardTheme(
-      elevation: 4,
-
-      shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
       ),
     ),
@@ -173,49 +162,40 @@ class TemaApp {
 
 ---
 
-# PASO 4 — main.dart
+# 🚀 4. `main.dart`
 
-```dart id="g0zytx"
+```dart
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 
-import 'core/tema.dart';
-import 'firebase_options.dart';
-
-import 'providers/producto_provider.dart';
+import 'core/theme.dart';
 import 'providers/carrito_provider.dart';
 
-import 'vistas/welcome_screen.dart';
+import 'views/pantalla_bienvenida.dart';
+import 'views/autenticacion/pantalla_autenticacion.dart';
+import 'views/inicio/pantalla_inicio.dart';
 
 void main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
 
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  await Firebase.initializeApp();
 
-  runApp(const MusicManApp());
+  runApp(const MusicmanApp());
 }
 
-class MusicManApp extends StatelessWidget {
-  const MusicManApp({super.key});
+class MusicmanApp extends StatelessWidget {
+  const MusicmanApp({super.key});
 
   @override
   Widget build(BuildContext context) {
 
     return MultiProvider(
       providers: [
-
-        ChangeNotifierProvider(
-          create: (_) => ProductoProvider(),
-        ),
-
         ChangeNotifierProvider(
           create: (_) => CarritoProvider(),
         ),
-
       ],
 
       child: MaterialApp(
@@ -223,9 +203,15 @@ class MusicManApp extends StatelessWidget {
 
         title: 'MUSICMAN',
 
-        theme: TemaApp.temaClaro,
+        theme: AppTheme.temaPrincipal,
 
-        home: const WelcomeScreen(),
+        initialRoute: '/',
+
+        routes: {
+          '/': (context) => const PantallaBienvenida(),
+          '/autenticacion': (context) => const PantallaAutenticacion(),
+          '/inicio': (context) => const PantallaInicio(),
+        },
       ),
     );
   }
@@ -234,154 +220,135 @@ class MusicManApp extends StatelessWidget {
 
 ---
 
-# PASO 5 — Modelo Producto
+# 🧠 5. Modelos Firestore (`lib/models/`)
 
-# lib/modelos/producto_modelo.dart
+## `usuario_modelo.dart`
 
-```dart id="i8a72p"
-class Producto {
+```dart
+class UsuarioModelo {
 
-  final String id;
+  final String uid;
   final String nombre;
-  final String tipo;
-  final int stock;
-  final double precio;
-  final String marca;
-  final List<String> etiquetasCompatibilidad;
-
-  Producto({
-    required this.id,
-    required this.nombre,
-    required this.tipo,
-    required this.stock,
-    required this.precio,
-    required this.marca,
-    required this.etiquetasCompatibilidad,
-  });
-
-  factory Producto.fromMap(
-      Map<String, dynamic> datos,
-      String documentoId,
-      ) {
-
-    return Producto(
-      id: documentoId,
-      nombre: datos['nombre'],
-      tipo: datos['tipo'],
-      stock: datos['stock'],
-      precio: datos['precio'].toDouble(),
-      marca: datos['marca'],
-      etiquetasCompatibilidad:
-      List<String>.from(datos['etiquetas_compatibilidad']),
-    );
-  }
-
-  Map<String, dynamic> toMap() {
-
-    return {
-      'nombre': nombre,
-      'tipo': tipo,
-      'stock': stock,
-      'precio': precio,
-      'marca': marca,
-      'etiquetas_compatibilidad':
-      etiquetasCompatibilidad,
-    };
-  }
-}
-```
-
----
-
-# PASO 6 — Modelo Empleado
-
-# lib/modelos/empleado_modelo.dart
-
-```dart id="4n53ea"
-class Empleado {
-
-  final String id;
-  final String nombre;
+  final String email;
+  final String direccion;
   final String rol;
-  final String estado;
-  final int cantidadVentas;
 
-  Empleado({
-    required this.id,
+  UsuarioModelo({
+    required this.uid,
     required this.nombre,
+    required this.email,
+    required this.direccion,
     required this.rol,
-    required this.estado,
-    required this.cantidadVentas,
   });
 
-  factory Empleado.fromMap(
-      Map<String, dynamic> datos,
-      String documentoId,
-      ) {
-
-    return Empleado(
-      id: documentoId,
-      nombre: datos['nombre'],
-      rol: datos['rol'],
-      estado: datos['estado'],
-      cantidadVentas: datos['cantidad_ventas'],
-    );
+  Map<String, dynamic> toMap() {
+    return {
+      'uid': uid,
+      'nombre': nombre,
+      'email': email,
+      'direccion': direccion,
+      'rol': rol,
+    };
   }
 
-  Map<String, dynamic> toMap() {
+  factory UsuarioModelo.fromMap(Map<String, dynamic> mapa) {
 
-    return {
-      'nombre': nombre,
-      'rol': rol,
-      'estado': estado,
-      'cantidad_ventas': cantidadVentas,
-    };
+    return UsuarioModelo(
+      uid: mapa['uid'],
+      nombre: mapa['nombre'],
+      email: mapa['email'],
+      direccion: mapa['direccion'],
+      rol: mapa['rol'],
+    );
   }
 }
 ```
 
 ---
 
-# PASO 7 — Modelo Venta
+## `inventario_modelo.dart`
 
-# lib/modelos/venta_modelo.dart
+```dart
+class InventarioModelo {
 
-```dart id="l6v9d1"
-class Venta {
+  final String id;
+  final String nombre;
+  final String marca;
+  final double precio;
+  final int stock;
+  final String tipo;
+  final List<dynamic> etiquetas;
+
+  InventarioModelo({
+    required this.id,
+    required this.nombre,
+    required this.marca,
+    required this.precio,
+    required this.stock,
+    required this.tipo,
+    required this.etiquetas,
+  });
+
+  Map<String, dynamic> toMap() {
+
+    return {
+      'id': id,
+      'nombre': nombre,
+      'marca': marca,
+      'precio': precio,
+      'stock': stock,
+      'tipo': tipo,
+      'etiquetas': etiquetas,
+    };
+  }
+
+  factory InventarioModelo.fromMap(Map<String, dynamic> mapa) {
+
+    return InventarioModelo(
+      id: mapa['id'],
+      nombre: mapa['nombre'],
+      marca: mapa['marca'],
+      precio: mapa['precio'],
+      stock: mapa['stock'],
+      tipo: mapa['tipo'],
+      etiquetas: mapa['etiquetas'],
+    );
+  }
+}
+```
+
+---
+
+## `venta_modelo.dart`
+
+```dart
+class VentaModelo {
 
   final String id;
   final String idCliente;
-  final String idEmpleado;
-
-  final List productos;
-
-  final double subtotal;
-  final double impuesto;
+  final List<dynamic> listaItems;
   final double total;
+  final double impuestos;
+  final DateTime fechaHora;
 
-  final DateTime fecha;
-
-  Venta({
+  VentaModelo({
     required this.id,
     required this.idCliente,
-    required this.idEmpleado,
-    required this.productos,
-    required this.subtotal,
-    required this.impuesto,
+    required this.listaItems,
     required this.total,
-    required this.fecha,
+    required this.impuestos,
+    required this.fechaHora,
   });
 
   Map<String, dynamic> toMap() {
 
     return {
+      'id': id,
       'id_cliente': idCliente,
-      'id_empleado': idEmpleado,
-      'lista_productos': productos,
-      'subtotal': subtotal,
-      'impuesto': impuesto,
+      'lista_items': listaItems,
       'total': total,
-      'fecha': fecha,
+      'impuestos': impuestos,
+      'fecha_hora': fechaHora.toIso8601String(),
     };
   }
 }
@@ -389,203 +356,116 @@ class Venta {
 
 ---
 
-# PASO 8 — Modelo Proveedor
+# 🔥 6. Servicio Firebase (`services/firebase_service.dart`)
 
-# lib/modelos/proveedor_modelo.dart
-
-```dart id="x1ot1k"
-class Proveedor {
-
-  final String id;
-  final String empresa;
-  final String contacto;
-  final String categoria;
-
-  Proveedor({
-    required this.id,
-    required this.empresa,
-    required this.contacto,
-    required this.categoria,
-  });
-
-  Map<String, dynamic> toMap() {
-
-    return {
-      'empresa': empresa,
-      'contacto': contacto,
-      'categoria': categoria,
-    };
-  }
-}
-```
-
----
-
-# PASO 9 — Firebase Servicio
-
-# lib/servicios/firebase_servicio.dart
-
-```dart id="14u22u"
+```dart
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class FirebaseServicio {
+class FirebaseService {
 
   final FirebaseFirestore firestore =
-  FirebaseFirestore.instance;
+      FirebaseFirestore.instance;
 
-  // PRODUCTOS
-
-  Future<void> agregarProducto(
-      Map<String, dynamic> datos,
-      ) async {
+  // CREAR
+  Future<void> crearDocumento({
+    required String coleccion,
+    required String id,
+    required Map<String, dynamic> datos,
+  }) async {
 
     await firestore
-        .collection('productos')
-        .add(datos);
+        .collection(coleccion)
+        .doc(id)
+        .set(datos);
   }
 
-  Stream<QuerySnapshot> obtenerProductos() {
+  // LEER
+  Stream<QuerySnapshot> obtenerColeccion(
+      String coleccion) {
 
     return firestore
-        .collection('productos')
+        .collection(coleccion)
         .snapshots();
   }
 
-  Future<void> actualizarProducto(
-      String id,
-      Map<String, dynamic> datos,
-      ) async {
+  // ACTUALIZAR
+  Future<void> actualizarDocumento({
+    required String coleccion,
+    required String id,
+    required Map<String, dynamic> datos,
+  }) async {
 
     await firestore
-        .collection('productos')
+        .collection(coleccion)
         .doc(id)
         .update(datos);
   }
 
-  Future<void> eliminarProducto(
-      String id,
-      ) async {
+  // ELIMINAR
+  Future<void> eliminarDocumento({
+    required String coleccion,
+    required String id,
+  }) async {
 
     await firestore
-        .collection('productos')
+        .collection(coleccion)
         .doc(id)
         .delete();
   }
-
-  // EMPLEADOS
-
-  Stream<QuerySnapshot> obtenerEmpleados() {
-
-    return firestore
-        .collection('empleados')
-        .snapshots();
-  }
-
-  // VENTAS
-
-  Future<void> registrarVenta(
-      Map<String, dynamic> datos,
-      ) async {
-
-    await firestore
-        .collection('ventas')
-        .add(datos);
-  }
-
-  // PROVEEDORES
-
-  Stream<QuerySnapshot> obtenerProveedores() {
-
-    return firestore
-        .collection('proveedores')
-        .snapshots();
-  }
 }
 ```
 
 ---
 
-# PASO 10 — Provider Productos
+# 🛒 7. Provider del Carrito (`providers/carrito_provider.dart`)
 
-# lib/providers/producto_provider.dart
-
-```dart id="pn46ph"
+```dart
 import 'package:flutter/material.dart';
-
-import '../modelos/producto_modelo.dart';
-
-class ProductoProvider extends ChangeNotifier {
-
-  final List<Producto> _productos = [];
-
-  List<Producto> get productos => _productos;
-
-  void agregarProducto(Producto producto) {
-
-    _productos.add(producto);
-
-    notifyListeners();
-  }
-}
-```
-
----
-
-# PASO 11 — Provider Carrito
-
-# lib/providers/carrito_provider.dart
-
-```dart id="qqqgw2"
-import 'package:flutter/material.dart';
-
-import '../modelos/producto_modelo.dart';
 
 class CarritoProvider extends ChangeNotifier {
 
-  final List<Producto> _carrito = [];
+  final List<Map<String, dynamic>> _items = [];
 
-  List<Producto> get carrito => _carrito;
+  List<Map<String, dynamic>> get items => _items;
+
+  void agregarProducto(
+      Map<String, dynamic> producto) {
+
+    _items.add(producto);
+
+    notifyListeners();
+  }
+
+  void eliminarProducto(int index) {
+
+    _items.removeAt(index);
+
+    notifyListeners();
+  }
 
   double get total {
 
     double suma = 0;
 
-    for (var producto in _carrito) {
-      suma += producto.precio;
+    for (var item in _items) {
+      suma += item['precio'];
     }
 
     return suma;
-  }
-
-  void agregarAlCarrito(Producto producto) {
-
-    _carrito.add(producto);
-
-    notifyListeners();
-  }
-
-  void eliminarDelCarrito(Producto producto) {
-
-    _carrito.remove(producto);
-
-    notifyListeners();
   }
 }
 ```
 
 ---
 
-# PASO 12 — Welcome Screen
+# 🌊 8. `PantallaBienvenida`
 
-# lib/vistas/welcome_screen.dart
-
-```dart id="w1z70v"
+```dart
 import 'package:flutter/material.dart';
 
-import 'auth_screen.dart';
+class PantallaBienvenida extends StatelessWidget {
 
-class WelcomeScreen extends StatelessWidget {
-  const WelcomeScreen({super.key});
+  const PantallaBienvenida({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -602,7 +482,6 @@ class WelcomeScreen extends StatelessWidget {
               Color(0xFF006064),
               Color(0xFF00ACC1),
             ],
-
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
@@ -613,51 +492,36 @@ class WelcomeScreen extends StatelessWidget {
 
           children: [
 
-            const Icon(
-              Icons.music_note,
-              size: 120,
-              color: Colors.white,
+            Image.asset(
+              'assets/images/logo.png',
+              height: 150,
+            ),
+
+            const SizedBox(height: 30),
+
+            const Text(
+              'MUSICMAN',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 38,
+                fontWeight: FontWeight.bold,
+              ),
             ),
 
             const SizedBox(height: 20),
 
-            const Text(
-              'MUSICMAN',
-
-              style: TextStyle(
-                fontSize: 42,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ),
-            ),
-
-            const SizedBox(height: 10),
-
-            const Text(
-              'Instrumentos • Accesorios • Refacciones',
-
-              style: TextStyle(
-                color: Colors.white70,
-                fontSize: 18,
-              ),
-            ),
-
-            const SizedBox(height: 50),
-
             ElevatedButton(
-
               onPressed: () {
 
-                Navigator.push(
+                Navigator.pushNamed(
                   context,
-
-                  MaterialPageRoute(
-                    builder: (_) => const AuthScreen(),
-                  ),
+                  '/autenticacion',
                 );
               },
 
-              child: const Text('Comenzar'),
+              child: const Text(
+                'Comenzar',
+              ),
             ),
           ],
         ),
@@ -669,247 +533,204 @@ class WelcomeScreen extends StatelessWidget {
 
 ---
 
-# PASO 13 — Auth Screen
+# 🎼 9. Pantalla de Inventario con Filtro de Piezas Técnicas
 
-# lib/vistas/auth_screen.dart
+```dart
+DropdownButton<String>(
+  value: filtroSeleccionado,
 
-```dart id="xwwsga"
-import 'package:flutter/material.dart';
+  items: const [
 
-class AuthScreen extends StatefulWidget {
-  const AuthScreen({super.key});
+    DropdownMenuItem(
+      value: 'Todos',
+      child: Text('Todos'),
+    ),
 
-  @override
-  State<AuthScreen> createState() =>
-      _AuthScreenState();
-}
+    DropdownMenuItem(
+      value: 'Instrumento',
+      child: Text('Instrumentos'),
+    ),
 
-class _AuthScreenState extends State<AuthScreen>
-    with SingleTickerProviderStateMixin {
+    DropdownMenuItem(
+      value: 'Pieza',
+      child: Text('Piezas Técnicas'),
+    ),
+  ],
 
-  late TabController controladorTabs;
+  onChanged: (valor) {
 
-  @override
-  void initState() {
-    super.initState();
+    filtroSeleccionado = valor!;
+  },
+)
+```
 
-    controladorTabs =
-        TabController(length: 2, vsync: this);
+---
+
+# 🔐 10. Firebase Auth (`autenticacion_service.dart`)
+
+```dart
+import 'package:firebase_auth/firebase_auth.dart';
+
+class AutenticacionService {
+
+  final FirebaseAuth auth =
+      FirebaseAuth.instance;
+
+  Future<User?> iniciarSesion({
+    required String email,
+    required String password,
+  }) async {
+
+    UserCredential credencial =
+        await auth.signInWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
+
+    return credencial.user;
   }
 
-  @override
-  Widget build(BuildContext context) {
+  Future<User?> registrarUsuario({
+    required String email,
+    required String password,
+  }) async {
 
-    return Scaffold(
-
-      body: SafeArea(
-
-        child: Padding(
-          padding: const EdgeInsets.all(24),
-
-          child: Column(
-
-            children: [
-
-              const SizedBox(height: 40),
-
-              const Text(
-                'Bienvenido',
-
-                style: TextStyle(
-                  fontSize: 32,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-
-              const SizedBox(height: 30),
-
-              TabBar(
-                controller: controladorTabs,
-
-                tabs: const [
-                  Tab(text: 'Login'),
-                  Tab(text: 'Registro'),
-                ],
-              ),
-
-              Expanded(
-
-                child: TabBarView(
-                  controller: controladorTabs,
-
-                  children: [
-                    loginWidget(),
-                    registroWidget(),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
+    UserCredential credencial =
+        await auth.createUserWithEmailAndPassword(
+      email: email,
+      password: password,
     );
+
+    return credencial.user;
   }
 
-  Widget loginWidget() {
+  Future<void> cerrarSesion() async {
 
-    return Column(
-
-      children: [
-
-        const SizedBox(height: 20),
-
-        TextField(
-          decoration: const InputDecoration(
-            hintText: 'Correo',
-          ),
-        ),
-
-        const SizedBox(height: 20),
-
-        TextField(
-          obscureText: true,
-
-          decoration: const InputDecoration(
-            hintText: 'Contraseña',
-          ),
-        ),
-
-        const SizedBox(height: 30),
-
-        ElevatedButton(
-          onPressed: () {},
-
-          child: const Text('Ingresar'),
-        ),
-      ],
-    );
-  }
-
-  Widget registroWidget() {
-
-    return Column(
-
-      children: [
-
-        const SizedBox(height: 20),
-
-        TextField(
-          decoration: const InputDecoration(
-            hintText: 'Nombre',
-          ),
-        ),
-
-        const SizedBox(height: 20),
-
-        TextField(
-          decoration: const InputDecoration(
-            hintText: 'Correo',
-          ),
-        ),
-
-        const SizedBox(height: 20),
-
-        TextField(
-          obscureText: true,
-
-          decoration: const InputDecoration(
-            hintText: 'Contraseña',
-          ),
-        ),
-
-        const SizedBox(height: 30),
-
-        ElevatedButton(
-          onPressed: () {},
-
-          child: const Text('Crear Cuenta'),
-        ),
-      ],
-    );
+    await auth.signOut();
   }
 }
 ```
 
 ---
 
-# PASO 14 — Configurar Firebase
+# 📘 11. `README.md`
 
-Ejecutar:
-
-```bash id="wf0x3o"
-flutterfire configure
-```
-
-Esto generará:
-
-```bash id="wq7g55"
-firebase_options.dart
-```
-
----
-
-# PASO 15 — README.md
-
-````md id="x5a4tz"
+```md
 # MUSICMAN
 
-Aplicación profesional desarrollada con Flutter y Firebase para la gestión de instrumentos musicales, refacciones y accesorios.
+Aplicación E-commerce profesional desarrollada en Flutter y Firebase
+para la venta de instrumentos musicales y piezas técnicas.
 
 ---
 
-## Tecnologías
+# Tecnologías
 
 - Flutter
-- Firebase
-- Firestore
+- Dart
+- Firebase Auth
+- Cloud Firestore
 - Provider
 - Material 3
 
 ---
 
-## Instalación
+# Instalación
 
-```bash
+## 1. Clonar repositorio
+
+git clone URL_REPOSITORIO
+
+## 2. Instalar dependencias
+
 flutter pub get
-flutterfire configure
+
+## 3. Configurar Firebase
+
+- Crear proyecto en Firebase
+- Descargar google-services.json
+- Colocarlo en:
+
+android/app/google-services.json
+
+## 4. Ejecutar proyecto
+
 flutter run
+
+---
+
+# Colecciones Firestore
+
+## Usuarios
+
+- uid
+- nombre
+- email
+- direccion
+- rol
+
+## Empleados
+
+- id_empleado
+- nombre
+- cargo
+- conteo_ventas
+- activo
+
+## Inventario
+
+- id
+- nombre
+- marca
+- precio
+- stock
+- tipo
+- etiquetas
+
+## Proveedores
+
+- id
+- empresa
+- telefono_contacto
+- categoria
+
+## Ventas
+
+- id
+- id_cliente
+- lista_items
+- total
+- impuestos
+- fecha_hora
+
+---
+
+# Características
+
+- Autenticación Firebase
+- CRUD Firestore
+- Carrito en tiempo real
+- Gestión de inventario
+- Filtro de piezas técnicas
+- Diseño Premium Turquesa
 ```
 
 ---
 
-## Arquitectura
+# ✅ Arquitectura Final Recomendada
 
-### Providers
-Manejo global de estado.
+La aplicación queda organizada bajo principios:
 
-### Servicios
-Conexión con Firestore.
+* Separación UI / lógica de negocio.
+* Arquitectura escalable.
+* Compatible con VS Code + Antigravity.
+* Preparada para producción.
+* Firestore completamente modular.
+* Navegación limpia y profesional.
+* Gestión diferenciada entre instrumentos y piezas técnicas.
+* Preparada para agregar:
 
-### Modelos
-Estructura tipada de datos.
-
-### Firestore
-Base de datos en tiempo real.
-
----
-
-## Colecciones
-
-- productos
-- empleados
-- ventas
-- proveedores
-
----
-
-## Características
-
-- Login y registro
-- Catálogo moderno
-- Carrito de compras
-- CRUD Firestore
-- UI Premium
-- Diseño responsive
-- Material 3
-````
+  * Pasarela de pagos.
+  * Panel administrador.
+  * Analytics.
+  * Notificaciones push.
+  * Gestión avanzada de stock.
