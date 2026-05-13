@@ -1,53 +1,20 @@
-Prompt: Full-Stack Developer para App "MUSICMAN"
-Rol: Actúa como un Arquitecto de Software Senior experto en Flutter, Dart y Firebase. Tu objetivo es generar el código completo de una aplicación profesional llamada "MUSICMAN", una tienda especializada en instrumentos musicales, accesorios y piezas técnicas (sin cursos).
-
-🎨 1. Identidad Visual y UI/UX (Estilo Dark Turquoise)
-Colores: Primario: #006064 (Turquesa Oscuro), Acento: #00ACC1 (Turquesa Vibrante), Fondo: #F5F7F7.
-
-Widgets: Usa Material 3 con bordes redondeados (borderRadius: 20), elevaciones suaves y GoogleFonts.poppins.
-
-Flujo de Pantallas:
-
-WelcomeScreen: Logo, eslogan y botón "Comenzar" con gradientes turquesa.
-
-AuthScreen: Login y Registro (Firebase Auth) integrados en una sola vista con pestañas.
-
-MainShell: Navegación inferior (Home, Catálogo de Piezas, Carrito, Perfil).
-
-📂 2. Estructura de Archivos (Organización Profesional)
-Genera el código asumiendo esta estructura de carpetas:
-
-lib/core/theme.dart: Configuración del tema turquesa.
-
-lib/models/: Modelos para Product, Employee, Sale, Supplier.
-
-lib/services/firebase_service.dart: Lógica CRUD para Firestore.
-
-lib/providers/: Gestión de estado con el paquete Provider.
-
-lib/views/: Todas las pantallas mencionadas.
-
-📊 3. Base de Datos Firestore (Modelado Completo)
-Crea modelos de datos que soporten las siguientes tablas/colecciones:
-
-Employees: id, name, role (admin/sales), status, salesCount.
-
-Products & Parts: id, name, type (instrument/part), stock, price, brand, compatibility_tags.
-
-Sales: id, client_id, employee_id, items_list, subtotal, tax, total, timestamp.
-
-Suppliers: id, company, contact, category.
-
-🛠️ 4. Requerimientos Técnicos y Dependencias
-Proporciona el contenido para:
-
-pubspec.yaml: Incluir firebase_core, firebase_auth, cloud_firestore, provider, google_fonts, intl.
-
-Antigravity/VS Code: Asegúrate de que el código incluya las inicializaciones necesarias de Firebase para que sea compatible con estas herramientas de desarrollo.
-
-📝 5. Entregables Adicionales
-Un archivo README.md profesional para GitHub con descripción, instalación y guía de arquitectura.
-
-Código de main.dart con la configuración del ThemeData personalizado.
-
-Instrucción Final: Proporciona el código de manera estructurada, funcional y sin errores, priorizando que la interfaz se vea atractiva (UI Premium) y que la lógica de las piezas musicales esté claramente separada de los instrumentos completos.
+Super Prompt: Arquitecto de Software "MUSICMAN"Rol: Actúa como un Lead Full-Stack Developer experto en Dart, Flutter y Firebase. Tu misión es desarrollar la arquitectura y el código base de "MUSICMAN", una E-commerce avanzada de instrumentos y refacciones técnicas.🏗️ FASE 1: Configuración de Entorno y DependenciasGenera el archivo pubspec.yaml asegurando la compatibilidad con Antigravity/VS Code. Incluye:Firebase: firebase_core, firebase_auth, cloud_firestore.Estado & UI: provider, google_fonts, font_awesome_flutter, intl.Assets: Define la estructura para /assets/images/ y /assets/icons/.🎨 FASE 2: Diseño Visual (Dark Turquoise Premium)Configura el archivo lib/core/theme.dart con los siguientes parámetros:Paleta de Colores: Primario: #006064 (Turquesa Oscuro), Acento: #00ACC1 (Turquesa Vibrante), Fondo: #F5F7F7.Estética: Material 3, borderRadius: 20 en todos los Cards y Buttons, y fuentes de GoogleFonts.poppins().Flujo de Pantallas:WelcomeScreen: Pantalla de entrada con gradiente turquesa, logo y botón de acción.AuthScreen: Switcher elegante entre Login y Registro con Firebase Auth.MainShell: Scaffold con BottomNavigationBar (Home, Catálogo de Piezas, Carrito, Perfil).📊 FASE 3: Modelado de Datos (Firestore)Genera las clases en lib/models/ basadas en las siguientes estructuras de colecciones:ColecciónCampos PrincipalesPropósitoUsersuid, name, email, address, roleClientes y Admins.Employeesemp_id, name, role, sales_count, activeGestión de staff y ventas.Inventoryid, name, brand, price, stock, type (Unit/Part), tagsStock de instrumentos y piezas.Suppliersid, company, contact_phone, categoryProveedores de repuestos.Salesid, client_id, items[], total, tax, timestampHistórico de transacciones.📂 FASE 4: Estructura de CarpetasGenera el código asumiendo exactamente esta jerarquía de archivos:Plaintextmusicman/
+├── android/app/google-services.json
+├── assets/images/
+├── lib/
+│   ├── core/
+│   │   ├── constants/
+│   │   └── widgets/
+│   ├── models/
+│   ├── providers/
+│   ├── services/
+│   ├── views/
+│   │   ├── welcome_screen.dart
+│   │   ├── auth/
+│   │   ├── home/
+│   │   ├── inventory/
+│   │   └── sales/
+│   └── main.dart
+├── pubspec.yaml
+└── README.md
+🚀 FASE 5: Entregables de RepositorioCódigo main.dart: Inicialización de Firebase, configuración de ThemeData turquesa y rutas.Lógica de Negocio: Implementación de FirebaseService para CRUD y Provider para el carrito.Archivo README.md para GitHub:Descripción técnica de "MUSICMAN".Guía de instalación de Firebase y dependencias.Diccionario de datos de las colecciones.INSTRUCCIÓN FINAL:Proporciona el código de forma modular. No mezcles la lógica de negocio con la UI. Asegúrate de que la sección de "Piezas Técnicas" tenga filtros específicos. El resultado debe ser una app lista para producción, visualmente impactante y totalmente funcional en VS Code / Antigravity.
